@@ -1,7 +1,6 @@
 package GUI;
 
 import GUI.Windows.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -218,6 +217,7 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.node1name.setEnabled(false);
                 this.STARTnode1.setEnabled(false);
                 this.SHUTDOWNnode1.setEnabled(true);
+                //Nodes.startNode(1);
                 break;
             case "START N2":
                 this.Statusnode2OFF.setVisible(false);
