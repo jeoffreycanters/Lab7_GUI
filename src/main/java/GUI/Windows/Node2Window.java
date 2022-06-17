@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class Node2Window extends JFrame{
     private String NODE2name;
+    private String NODE2time;
     public Node2Window(){
         super("Project distributed");
         this.setSize(1000,500);
@@ -19,7 +20,8 @@ public class Node2Window extends JFrame{
         this.setLayout(new BorderLayout());
         this.setLayout(new GridBagLayout());
         this.NODE2name = UIFrame.getNames(2);
-        JLabel node1 = new JLabel("NODE2: " + NODE2name);
+        this.NODE2time = UIFrame.getTime(2);
+        JLabel node1 = new JLabel("NODE2: " + NODE2name + ", time running:" + NODE2time);
         AddComponent(node1, 0,0,1,1, new Insets(-400,-600,10,10), false);
         //hier een update functie voor de prevID en nextID
         JLabel files = new JLabel("FILES:");
