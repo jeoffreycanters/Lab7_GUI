@@ -1,6 +1,8 @@
 package GUI;
 
 import GUI.Windows.*;
+import org.json.simple.parser.ParseException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -217,7 +219,11 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.node1name.setEnabled(false);
                 this.STARTnode1.setEnabled(false);
                 this.SHUTDOWNnode1.setEnabled(true);
-                //Nodes.startNode(1);
+                try {
+                    Nodes.startNode(1);
+                } catch (IOException | ParseException ioException) {
+                    ioException.printStackTrace();
+                }
                 break;
             case "START N2":
                 this.Statusnode2OFF.setVisible(false);
@@ -257,6 +263,13 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.node1name.setEnabled(true);
                 this.STARTnode1.setEnabled(true);
                 this.SHUTDOWNnode1.setEnabled(false);
+                try {
+                    Nodes.stopNode(1);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ParseException parseException) {
+                    parseException.printStackTrace();
+                }
                 break;
             case "KILL N2":
                 this.Statusnode2ON.setVisible(false);

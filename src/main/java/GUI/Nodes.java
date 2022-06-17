@@ -12,9 +12,8 @@ public class Nodes {
     private String NODEname;
     //1. StartNode - 2. Read local files - 3. Read replication files - 4. Kill pidoff java kill process
 
-    public static void startNode(int number) throws IOException, ParseException {
-        //this.NODEname = UIFrame.getNames(number);
-        Process process = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number +"\"cd distributed/Distr-Lab5/Distr-Lab5; mvn exec:java -Dexec.mainClass=\"Node.NamingNode\" -Dexec.args=\"oliver\"");
+    public static void startNode(String number, String name, String time) throws IOException, ParseException {
+        Process process = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number +"\"cd distributed/Distr-Lab5; mvn exec:java -Dexec.mainClass=\"Node.NamingNode\" -Dexec.args=\"-a oliver -b 30000");
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line = "";
         while ((line = reader.readLine()) != null) {
@@ -37,7 +36,7 @@ public class Nodes {
     }
 
     public static void readLocalFiles(int number) throws IOException, ParseException {
-        Process process1 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number +"\"cd distributed/Distr-Lab5/Distr-Lab5/src/main/resources/LocalFiles; ls");
+        Process process1 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number +"\"cd distributed/Distr-Lab5/src/main/resources/LocalFiles; ls");
         BufferedReader reader1 = new BufferedReader(new InputStreamReader(process1.getInputStream()));
         String line = "";
         List<String> localFiles = new ArrayList<>();
@@ -49,7 +48,7 @@ public class Nodes {
     }
 
     public static void readReplicationFiles(int number) throws IOException, ParseException {
-        Process process2 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number + "\"cd distributed/Distr-Lab5/Distr-Lab5/src/main/resources/ReplicatedFiles; ls");
+        Process process2 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003"+ number + "\"cd distributed/Distr-Lab5/src/main/resources/ReplicatedFiles; ls");
         BufferedReader reader2 = new BufferedReader(new InputStreamReader(process2.getInputStream()));
         String line = "";
         List<String> replicationFiles = new ArrayList<>();
@@ -60,7 +59,7 @@ public class Nodes {
     }
 
     public static void stopNode(int number) throws IOException, ParseException {
-        Process process3 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003" + number + "\"cd distributed/Distr-Lab5/Distr-Lab5; kill pidoff java");
+        Process process3 = Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003" + number + "\"cd distributed/Distr-Lab5; kill pidoff java");
         BufferedReader reader3 = new BufferedReader(new InputStreamReader(process3.getInputStream()));
         String line = "";
         System.out.println(reader3);
