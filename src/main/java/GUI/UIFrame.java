@@ -16,6 +16,12 @@ public class UIFrame extends JFrame implements ActionListener{
     private static String NODE4name;
     private static String NODE5name;
 
+    private static String NODE1time;
+    private static String NODE2time;
+    private static String NODE3time;
+    private static String NODE4time;
+    private static String NODE5time;
+
     private Node1Window N1W;
     private Node2Window N2W;
     private Node3Window N3W;
@@ -77,6 +83,25 @@ public class UIFrame extends JFrame implements ActionListener{
         }
         else if(number == 5){
             return NODE5name;
+        }
+        return null;
+    }
+
+    public static String getTime(int number) {
+        if(number == 1){
+            return NODE1time;
+        }
+        else if(number == 2){
+            return NODE2time;
+        }
+        else if(number == 3){
+            return NODE3time;
+        }
+        else if(number == 4){
+            return NODE4time;
+        }
+        else if(number == 5){
+            return NODE5time;
         }
         return null;
     }
@@ -216,19 +241,18 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode1OFF.setVisible(false);
                 this.Statusnode1ON.setVisible(true);
                 NODE1name = this.node1name.getText();
+                NODE1time = this.node1time.getText();
+                this.node1time.setEnabled(false);
                 this.node1name.setEnabled(false);
                 this.STARTnode1.setEnabled(false);
                 this.SHUTDOWNnode1.setEnabled(true);
-                try {
-                    Nodes.startNode(1);
-                } catch (IOException | ParseException ioException) {
-                    ioException.printStackTrace();
-                }
                 break;
             case "START N2":
                 this.Statusnode2OFF.setVisible(false);
                 this.Statusnode2ON.setVisible(true);
                 NODE2name = this.node2name.getText();
+                NODE2time = this.node2time.getText();
+                this.node2time.setEnabled(false);
                 this.node2name.setEnabled(false);
                 this.STARTnode2.setEnabled(false);
                 this.SHUTDOWNnode2.setEnabled(true);
@@ -237,6 +261,8 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode3OFF.setVisible(false);
                 this.Statusnode3ON.setVisible(true);
                 NODE3name = this.node3name.getText();
+                NODE3time = this.node3time.getText();
+                this.node3time.setEnabled(false);
                 this.node3name.setEnabled(false);
                 this.STARTnode3.setEnabled(false);
                 this.SHUTDOWNnode3.setEnabled(true);
@@ -245,6 +271,8 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode4OFF.setVisible(false);
                 this.Statusnode4ON.setVisible(true);
                 NODE4name = this.node4name.getText();
+                NODE4time = this.node4time.getText();
+                this.node4time.setEnabled(false);
                 this.node4name.setEnabled(false);
                 this.STARTnode4.setEnabled(false);
                 this.SHUTDOWNnode4.setEnabled(true);
@@ -253,6 +281,8 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode5OFF.setVisible(false);
                 this.Statusnode5ON.setVisible(true);
                 NODE5name = this.node5name.getText();
+                NODE5time = this.node5time.getText();
+                this.node5time.setEnabled(false);
                 this.node5name.setEnabled(false);
                 this.STARTnode5.setEnabled(false);
                 this.SHUTDOWNnode5.setEnabled(true);
@@ -261,20 +291,15 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode1ON.setVisible(false);
                 this.Statusnode1OFF.setVisible(true);
                 this.node1name.setEnabled(true);
+                this.node1time.setEnabled(true);
                 this.STARTnode1.setEnabled(true);
                 this.SHUTDOWNnode1.setEnabled(false);
-                try {
-                    Nodes.stopNode(1);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (ParseException parseException) {
-                    parseException.printStackTrace();
-                }
                 break;
             case "KILL N2":
                 this.Statusnode2ON.setVisible(false);
                 this.Statusnode2OFF.setVisible(true);
                 this.node2name.setEnabled(true);
+                this.node2time.setEnabled(true);
                 this.STARTnode2.setEnabled(true);
                 this.SHUTDOWNnode2.setEnabled(false);
                 break;
@@ -282,6 +307,7 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode3ON.setVisible(false);
                 this.Statusnode3OFF.setVisible(true);
                 this.node3name.setEnabled(true);
+                this.node3time.setEnabled(true);
                 this.STARTnode3.setEnabled(true);
                 this.SHUTDOWNnode3.setEnabled(false);
                 break;
@@ -289,6 +315,7 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode4ON.setVisible(false);
                 this.Statusnode4OFF.setVisible(true);
                 this.node4name.setEnabled(true);
+                this.node4time.setEnabled(true);
                 this.STARTnode4.setEnabled(true);
                 this.SHUTDOWNnode4.setEnabled(false);
                 break;
@@ -296,6 +323,7 @@ public class UIFrame extends JFrame implements ActionListener{
                 this.Statusnode5ON.setVisible(false);
                 this.Statusnode5OFF.setVisible(true);
                 this.node5name.setEnabled(true);
+                this.node5time.setEnabled(true);
                 this.STARTnode5.setEnabled(true);
                 this.SHUTDOWNnode5.setEnabled(false);
                 break;
