@@ -1,61 +1,130 @@
 package GUI.Windows;
 
+import GUI.Nodes;
 import GUI.UIFrame;
+import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
-public class Node3Window extends JFrame {
-    private String NODE3name;
-    private String NODE3time;
+public class Node3Window extends JFrame implements ActionListener {
+    JTextField AddLocalFile = new JTextField(10);
+    JButton AddLocalFileButton = new JButton("ADD local");
+    DefaultListModel LocalModel = new DefaultListModel();
+    DefaultListModel ReplicatedModel = new DefaultListModel();
+    static JList local;
+    static JList replicated;
 
-    public Node3Window(){
+
+    public Node3Window() throws IOException, ParseException, InterruptedException {
         super("Project distributed");
-        this.setSize(1000,500);
+        this.setSize(900,500);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Initialise();
         this.setVisible(true);
     }
 
-    private void Initialise(){
+    private void Initialise() throws IOException, ParseException, InterruptedException {
         this.setLayout(new BorderLayout());
         this.setLayout(new GridBagLayout());
-        this.NODE3name = UIFrame.getNames(3);
-        this.NODE3time = UIFrame.getTime(1);
-        JLabel node1 = new JLabel("NODE1: " + NODE3name + ", time running:" + NODE3time);
-        AddComponent(node1, 0,0,1,1, new Insets(-400,-600,10,10), false);
+        String NODE3name = UIFrame.getNames(3);
+        String node3time = UIFrame.getTime(3);
+
+        int currID = UIFrame.getCurrentID(3);
+        int nextiousID = UIFrame.getNextID(3);
+        String nextiousIP = UIFrame.getNextIP(3);
+        int previousID = UIFrame.getPreviousID(3);
+        String previousIP = UIFrame.getPreviousIP(3);
+
+
+
+        JLabel node1 = new JLabel("NODE3: " + NODE3name + ", time running:" + node3time);
+        AddComponent(node1, new Insets(-400,-600,10,10));
         //hier een update functie voor de prevID en nextID
-        JLabel files = new JLabel("FILES:");
-        AddComponent(files, 0,0,1,1, new Insets(-400,200,10,10), false);
-        JLabel RepFiles = new JLabel("replicated:");
-        AddComponent(RepFiles, 0,0,1,1, new Insets(-350,180,10,10), false);
+        JLabel files = new JLabel("replicated:");
+        AddComponent(files, new Insets(-400,200,10,10));
         JLabel LocalFiles = new JLabel("local:");
-        AddComponent(LocalFiles, 0,0,1,1, new Insets(100,200,10,10), false);
-        JTextField AddRepFile = new JTextField(10);
-        AddComponent(AddRepFile, 0,0,1,1, new Insets(-345,400,10,10), false);
-        JButton AddRepFileButton = new JButton("ADD replicated");
-        AddComponent(AddRepFileButton, 0,0,1,1, new Insets(-345,700,10,10), false);
-        JButton RemoveRepFileButton = new JButton("REMOVE replicated");
-        AddComponent(RemoveRepFileButton, 0,0,1,1, new Insets(-280,700,10,10), false);
-        JTextField AddLocalFile = new JTextField(10);
-        AddComponent(AddLocalFile, 0,0,1,1, new Insets(100,400,10,10), false);
-        JButton AddLocalFileButton = new JButton("ADD local");
-        AddComponent(AddLocalFileButton, 0,0,1,1, new Insets(95,700,10,10), false);
+        AddComponent(LocalFiles, new Insets(0,200,10,10));
+
+        AddComponent(AddLocalFile, new Insets(0,400,10,10));
+        AddLocalFileButton.addActionListener(this);
+
+        AddComponent(AddLocalFileButton, new Insets(0,700,10,10));
         JButton RemoveLocalFileButton = new JButton("REMOVE local");
-        AddComponent(RemoveLocalFileButton, 0,0,1,1, new Insets(160,700,10,10), false);
+        AddComponent(RemoveLocalFileButton, new Insets(80,700,10,10));
+        RemoveLocalFileButton.addActionListener(this);
+
+
+        updateFiles();
+        local = new JList(LocalModel);
+        replicated = new JList(ReplicatedModel);
+        AddComponent(local, new Insets(200,400,0,0));
+        AddComponent(replicated, new Insets(-300,400,0,0));
+        JLabel currentID = new JLabel("CurrentID: " + currID);
+        JLabel nextID = new JLabel("NextID: " + nextiousID);
+        JLabel prevID = new JLabel("PreviousID: " + previousID);
+        JLabel nextIP = new JLabel("NextIP: " + nextiousIP);
+        JLabel prevIP = new JLabel("PreviousIP: " + previousIP);
+
+
+        AddComponent(currentID, new Insets(-300,-400,0,0));
+        AddComponent(nextID, new Insets(-200,-400,0,0));
+        AddComponent(prevID, new Insets(-100,-400,0,0));
+        AddComponent(nextIP, new Insets(0,-400,0,0));
+        AddComponent(prevIP, new Insets(100,-400,0,0));
+
     }
 
-    private void AddComponent(Component component, int row, int column, int width, int height, Insets insets, boolean fill){
+    private void AddComponent(Component component, Insets insets){
         GridBagConstraints c = new GridBagConstraints();
-        c.gridx = column;
-        c.gridy = row;
-        c.gridwidth = width;
-        c.gridheight = height;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
         c.insets = insets;
-        if(fill)
-            c.fill = GridBagConstraints.HORIZONTAL;
-        else
-            c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.NONE;
         this.add(component, c);
     }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case "ADD local":
+                try {
+                    Nodes.createFile("3", AddLocalFile.getText());
+                    updateFiles();
+                } catch (IOException | ParseException | InterruptedException ioException) {
+                    ioException.printStackTrace();
+                }
+                break;
+            case "REMOVE local":
+                try {
+                    Nodes.deleteFile("3", AddLocalFile.getText());
+                    updateFiles();
+                } catch (IOException | ParseException | InterruptedException ioException) {
+                    ioException.printStackTrace();
+                }
+        }
+    }
+    public void updateFiles() throws IOException, ParseException, InterruptedException {
+        Thread.sleep(250);
+        LocalModel.removeAllElements();
+        ReplicatedModel.removeAllElements();
+        String[] localFiles = Nodes.readLocalFiles("3");
+        int i = 0;
+        while(i < localFiles.length){
+            LocalModel.addElement(localFiles[i]);
+            i++;
+        }
+        String[] replicatedFiles = Nodes.readReplicationFiles("3");
+        int j = 0;
+        while(j < replicatedFiles.length){
+            ReplicatedModel.addElement(replicatedFiles[j]);
+            j++;
+        }
+
+    }
+
 }
