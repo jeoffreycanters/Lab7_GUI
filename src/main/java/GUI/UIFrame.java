@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import static GUI.Nodes.stopServer;
+
 public class UIFrame extends JFrame implements ActionListener {
     private static String NODE1name;
     private static String NODE2name;
@@ -48,6 +50,7 @@ public class UIFrame extends JFrame implements ActionListener {
     private Nodes Node2;
     private Nodes Node3;
     private Nodes Node4;
+    private Nodes Server;
 
 
     JTextArea StatusserverON = new JTextArea("SERVER RUNNING");
@@ -389,7 +392,7 @@ public class UIFrame extends JFrame implements ActionListener {
                 this.Statusnode4ON.setVisible(true);
                 NODE4name = this.node4name.getText();
                 NODE4time = this.node4time.getText();
-                Node4 = new Nodes("startNode","4", NODE3name, NODE3time);
+                Node4 = new Nodes("startNode","4", NODE4name, NODE4time);
                 Node4.start();
                 this.node4time.setEnabled(false);
                 this.node4name.setEnabled(false);
@@ -444,7 +447,13 @@ public class UIFrame extends JFrame implements ActionListener {
                 this.StatusserverOFF.setVisible(true);
                 this.STARTserver.setEnabled(true);
                 this.SHUTDOWNserver.setEnabled(false);
-                new Nodes("stopNode","1", " ", " ").start();
+                try {
+                    stopServer();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+                //new Nodes("stopNode","1", " ", " ").start();
                 break;
         }
     }

@@ -30,14 +30,14 @@ public class Node4Window extends JFrame implements ActionListener {
     private void Initialise() throws IOException, ParseException, InterruptedException {
         this.setLayout(new BorderLayout());
         this.setLayout(new GridBagLayout());
-        String NODE4name = UIFrame.getNames(3);
-        String node4time = UIFrame.getTime(3);
+        String NODE4name = UIFrame.getNames(4);
+        String node4time = UIFrame.getTime(4);
 
-        int currID = UIFrame.getCurrentID(3);
-        int nextiousID = UIFrame.getNextID(3);
-        String nextiousIP = UIFrame.getNextIP(3);
-        int previousID = UIFrame.getPreviousID(3);
-        String previousIP = UIFrame.getPreviousIP(3);
+        int currID = UIFrame.getCurrentID(4);
+        int nextiousID = UIFrame.getNextID(4);
+        String nextiousIP = UIFrame.getNextIP(4);
+        int previousID = UIFrame.getPreviousID(4);
+        String previousIP = UIFrame.getPreviousIP(4);
 
 
 

@@ -44,7 +44,7 @@ public class Nodes extends Thread {
                 }
             case "startServer":
                 try {
-                    startServer();
+                        startServer();
                 } catch (IOException | ParseException e) {
                     e.printStackTrace();
                 }
@@ -100,11 +100,14 @@ public class Nodes extends Thread {
         //System.out.println(replicationFiles);
         return replicationFiles;
     }
+    public static void stopServer() throws IOException {
+        Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 10031 killall -9 java");
+    }
     public static void stopNode(String number) throws IOException, ParseException {
         Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003" + number + " kill $(pidof java)");
     }
-    public static void startServer() throws IOException, ParseException {
-        Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 10031 cd distributed/Distr-Lab5; mvn spring-boot:run");
+    public static Process startServer() throws IOException, ParseException {
+        return Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 10031 cd distributed/Distr-Lab5; mvn spring-boot:run");
     }
     public static void deleteFile(String number, String name) throws IOException, ParseException {
         Runtime.getRuntime().exec("cmd /c ssh root@dist-computing.idlab.uantwerpen.be -p 1003" + number +" cd distributed/Distr-Lab5/src/main/resources/LocalFiles; rm " + name);
